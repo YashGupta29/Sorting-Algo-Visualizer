@@ -1,7 +1,7 @@
 function generateRandomArray() {
   let array = [];
   for (let i = 1; i < getRandomIntFromInterval(150, 150); i++) {
-    array.push(getRandomIntFromInterval(10, 1000000));
+    array.push(getRandomIntFromInterval(10, 500));
   }
   return array;
 }
