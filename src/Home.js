@@ -128,6 +128,38 @@ const Home = () => {
     setIsBusy(false);
   }
 
+  async function insertionSort(array) {
+    let sortedIdexed = [0, 1];
+    setSortedIdxArray(sortedIdexed);
+    for (let i = 1; i < array.length; i++) {
+      await delay(100);
+      let key = array[i];
+      await inner(array, key, i);
+      sortedIdexed.push(i + 1);
+      setSortedIdxArray(sortedIdexed);
+    }
+  }
+
+  async function inner(array, key, i) {
+    let j = i - 1;
+    while (array[j] > key && j >= 0) {
+      await delay(10);
+      swap(array, j, j + 1);
+      await delay(10);
+      setJ2(j);
+      j--;
+    }
+  }
+
+  async function handleInsertionSort() {
+    setIsBusy(true);
+    clear();
+    await insertionSort(array);
+    clear();
+    setIsSorted(true);
+    setIsBusy(false);
+  }
+
   return (
     <div className="home" id="home">
       <div className="container">
@@ -142,20 +174,24 @@ const Home = () => {
           <button
             className="cta px-3 py-2"
             onClick={handleBubbleSort}
-            disabled={isBusy}
+            disabled={isBusy || isSorted}
           >
             Bubble Sort
           </button>
-          <button className="cta px-3 py-2" disabled={isBusy}>
+          <button className="cta px-3 py-2" disabled={isBusy || isSorted}>
             Quick Sort
           </button>
-          <button className="cta px-3 py-2" disabled={isBusy}>
+          <button
+            className="cta px-3 py-2"
+            onClick={handleInsertionSort}
+            disabled={isBusy || isSorted}
+          >
             Insertion Sort
           </button>
           <button
             className="cta px-3 py-2"
             onClick={handleMergeSort}
-            disabled={isBusy}
+            disabled={isBusy || isSorted}
           >
             Merge Sort
           </button>
