@@ -8,8 +8,9 @@ const Home = () => {
   const [sortedIdxArray, setSortedIdxArray] = useState([]);
   const [j1, setJ1] = useState("");
   const [j2, setJ2] = useState("");
+  const [x, setX] = useState("");
   const [isSorted, setIsSorted] = useState(false);
-  const colors = ["red", "green", "pink"];
+  const colors = ["red", "green", "pink", "blue"];
 
   //FUNTIONS
   function generateNewArray() {
@@ -21,6 +22,7 @@ const Home = () => {
     setSortedIdxArray([]);
     setJ1("");
     setJ2("");
+    setX("");
     setIsSorted(false);
   }
 
@@ -134,13 +136,13 @@ const Home = () => {
     for (let i = 1; i < array.length; i++) {
       await delay(100);
       let key = array[i];
-      await inner(array, key, i);
+      await innerLoop2(array, key, i);
       sortedIdexed.push(i + 1);
       setSortedIdxArray(sortedIdexed);
     }
   }
 
-  async function inner(array, key, i) {
+  async function innerLoop2(array, key, i) {
     let j = i - 1;
     while (array[j] > key && j >= 0) {
       await delay(10);
@@ -155,6 +157,41 @@ const Home = () => {
     setIsBusy(true);
     clear();
     await insertionSort(array);
+    clear();
+    setIsSorted(true);
+    setIsBusy(false);
+  }
+
+  async function selectionSort(array) {
+    let sortedIdexed = [];
+    for (let i = 0; i < array.length - 1; i++) {
+      await delay(1);
+      setJ1(i);
+      let minIdx = i;
+      setX(i);
+      minIdx = await innerLoop3(array, minIdx, i);
+      setArray(await swap(array, i, minIdx));
+      sortedIdexed.push(i);
+      setSortedIdxArray(sortedIdexed);
+    }
+  }
+
+  async function innerLoop3(array, minIdx, i) {
+    for (let j = i + 1; j < array.length; j++) {
+      await delay(1);
+      setJ2(j);
+      if (array[j] < array[minIdx]) {
+        minIdx = j;
+        setX(j);
+      }
+    }
+    return minIdx;
+  }
+
+  async function handleSelectionSort() {
+    setIsBusy(true);
+    clear();
+    await selectionSort(array);
     clear();
     setIsSorted(true);
     setIsBusy(false);
@@ -178,15 +215,19 @@ const Home = () => {
           >
             Bubble Sort
           </button>
-          <button className="cta px-3 py-2" disabled={isBusy || isSorted}>
-            Quick Sort
-          </button>
           <button
             className="cta px-3 py-2"
             onClick={handleInsertionSort}
             disabled={isBusy || isSorted}
           >
             Insertion Sort
+          </button>
+          <button
+            className="cta px-3 py-2"
+            onClick={handleSelectionSort}
+            disabled={isBusy || isSorted}
+          >
+            Selection Sort
           </button>
           <button
             className="cta px-3 py-2"
@@ -207,6 +248,8 @@ const Home = () => {
                   ? colors[2]
                   : j1 === index || j2 === index
                   ? colors[0]
+                  : x === index
+                  ? colors[3]
                   : sortedIdxArray.includes(index)
                   ? colors[1]
                   : "#fff",
