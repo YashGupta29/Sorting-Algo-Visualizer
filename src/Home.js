@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Start from "./Start";
+import ParticlesBg from "particles-bg";
 import { delay, generateRandomArray, swap } from "./utils";
 
 const Home = () => {
@@ -10,9 +12,14 @@ const Home = () => {
   const [j2, setJ2] = useState("");
   const [x, setX] = useState("");
   const [isSorted, setIsSorted] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
   const colors = ["red", "green", "pink", "blue"];
 
   //FUNTIONS
+  function onHandleStart() {
+    setIsStarted(true);
+  }
+
   function generateNewArray() {
     setArray(generateRandomArray);
     clear();
@@ -198,67 +205,76 @@ const Home = () => {
   }
 
   return (
-    <div className="home" id="home">
-      <div className="container">
-        <div className="btns d-flex justify-content-between align-items-center">
-          <button
-            className="cta px-3 py-2"
-            onClick={generateNewArray}
-            disabled={isBusy}
-          >
-            Generate New Array
-          </button>
-          <button
-            className="cta px-3 py-2"
-            onClick={handleBubbleSort}
-            disabled={isBusy || isSorted}
-          >
-            Bubble Sort
-          </button>
-          <button
-            className="cta px-3 py-2"
-            onClick={handleInsertionSort}
-            disabled={isBusy || isSorted}
-          >
-            Insertion Sort
-          </button>
-          <button
-            className="cta px-3 py-2"
-            onClick={handleSelectionSort}
-            disabled={isBusy || isSorted}
-          >
-            Selection Sort
-          </button>
-          <button
-            className="cta px-3 py-2"
-            onClick={handleMergeSort}
-            disabled={isBusy || isSorted}
-          >
-            Merge Sort
-          </button>
+    <>
+      {isStarted ? (
+        <div className="home" id="home">
+          <div className="container">
+            <div className="btns d-flex justify-content-between align-items-center">
+              <button
+                className="startBtn cta px-4 py-3"
+                onClick={generateNewArray}
+                disabled={isBusy}
+              >
+                Generate New Array
+              </button>
+              <button
+                className="startBtn cta px-4 py-3"
+                onClick={handleBubbleSort}
+                disabled={isBusy || isSorted}
+              >
+                Bubble Sort
+              </button>
+              <button
+                className="startBtn cta px-4 py-3"
+                onClick={handleInsertionSort}
+                disabled={isBusy || isSorted}
+              >
+                Insertion Sort
+              </button>
+              <button
+                className="startBtn cta px-4 py-3"
+                onClick={handleSelectionSort}
+                disabled={isBusy || isSorted}
+              >
+                Selection Sort
+              </button>
+              <button
+                className="startBtn cta px-4 py-3"
+                onClick={handleMergeSort}
+                disabled={isBusy || isSorted}
+              >
+                Merge Sort
+              </button>
+            </div>
+            <div className="bars d-flex mt-5 align-items-end">
+              {array.map((value, index) => (
+                <div
+                  className="bar"
+                  key={index}
+                  style={{
+                    height: `${Math.floor(value)}px`,
+                    backgroundColor: isSorted
+                      ? colors[2]
+                      : j1 === index || j2 === index
+                      ? colors[0]
+                      : x === index
+                      ? colors[3]
+                      : sortedIdxArray.includes(index)
+                      ? colors[1]
+                      : "#fff",
+                  }}
+                ></div>
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="bars d-flex mt-5 align-items-end">
-          {array.map((value, index) => (
-            <div
-              className="bar"
-              key={index}
-              style={{
-                height: `${Math.floor(value)}px`,
-                backgroundColor: isSorted
-                  ? colors[2]
-                  : j1 === index || j2 === index
-                  ? colors[0]
-                  : x === index
-                  ? colors[3]
-                  : sortedIdxArray.includes(index)
-                  ? colors[1]
-                  : "#fff",
-              }}
-            ></div>
-          ))}
-        </div>
-      </div>
-    </div>
+      ) : (
+        <>
+          <Start onHandleStart={onHandleStart} />
+          <ParticlesBg type="lines" bg={true} />
+        </>
+      )}
+    </>
   );
 };
 

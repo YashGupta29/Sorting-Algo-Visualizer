@@ -4,6 +4,44 @@
   box-sizing: border-box;
 }
 
+#start {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.startBtn {
+  padding: 15px 30px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  box-shadow: inset -5px -5px 5px rgba(0, 0, 0, 0.5),
+    inset 5px 5px 5px rgba(255, 255, 255, 0.5);
+  background-color: #2a2a72;
+  background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
+  transition: all 0.5s ease;
+  color: #fff;
+}
+
+.startBtn:hover {
+  background-color: #009ffd;
+  background-image: linear-gradient(315deg, #009ffd 0%, #2a2a72 74%);
+}
+
+.startBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.startBtn:disabled:hover {
+  background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
+  transition: all 0.5s ease;
+}
+
 .home {
   background-color: #000;
   min-height: 100vh;
